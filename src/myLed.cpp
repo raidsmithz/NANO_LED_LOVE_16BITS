@@ -4,7 +4,7 @@ int ledIndex = 0;
 int ledDirection = 1;
 bool blinkState = false;
 uint32_t lastLedUpdate;
-ledMode_t currentModeLed = LED_ALL_OFF;
+ledMode_t currentModeLed, lastModeLed;
 
 void allLedsOff()
 {
@@ -35,15 +35,18 @@ void blinkAllLeds(uint16_t interval)
 
 void runningLeds(uint16_t interval)
 {
+    uint8_t snakeLength = 3;
     if (millis() - lastLedUpdate < interval)
         return;
     lastLedUpdate = millis();
 
     allLedsOff();
-    digitalWrite(ledPins[ledIndex], HIGH);
-    digitalWrite(ledPins[ledIndex + 1], HIGH);
-    digitalWrite(ledPins[ledIndex + 2], HIGH);
-    digitalWrite(ledPins[ledIndex + 3], HIGH);
+
+    for (uint8_t i = 0; i < snakeLength; i++)
+    {
+        uint8_t idx = (ledIndex + i) % LED_COUNTS; // 🔑 wrap-around
+        digitalWrite(ledPins[idx], HIGH);
+    }
 
     ledIndex++;
     if (ledIndex >= LED_COUNTS)
@@ -70,12 +73,19 @@ void fillUpLeds(uint16_t interval)
         return;
     lastLedUpdate = millis();
 
+    if (ledIndex == 0)
+        allLedsOff();
+
     for (int i = 0; i <= ledIndex; i++)
         digitalWrite(ledPins[i], HIGH);
 
     ledIndex++;
-    if (ledIndex >= 16)
+
+    if (ledIndex >= LED_COUNTS)
+    {
         ledIndex = 0;
+        allLedsOff();
+    }
 }
 
 void fillDownLeds(uint16_t interval)
@@ -84,12 +94,19 @@ void fillDownLeds(uint16_t interval)
         return;
     lastLedUpdate = millis();
 
-    for (int i = 15; i >= ledIndex; i--)
-        digitalWrite(ledPins[i], HIGH);
+    if (ledIndex == 0)
+        allLedsOn();
+
+    int idx = LED_COUNTS - 1 - ledIndex;
+    if (idx >= 0)
+        digitalWrite(ledPins[idx], LOW);
 
     ledIndex++;
-    if (ledIndex >= 16)
+    if (ledIndex >= LED_COUNTS)
+    {
         ledIndex = 0;
+        allLedsOff();
+    }
 }
 
 void centerOutLeds(uint16_t interval)
@@ -100,7 +117,7 @@ void centerOutLeds(uint16_t interval)
 
     allLedsOff();
 
-    int left = 7 - ledIndex;
+    int left = 8 - ledIndex;
     int right = 8 + ledIndex;
 
     if (left >= 0)
@@ -122,7 +139,7 @@ void edgeInLeds(uint16_t interval)
     allLedsOff();
 
     int left = ledIndex;
-    int right = 15 - ledIndex;
+    int right = ledIndex == 0 ? 0 : 16 - ledIndex;
 
     if (left <= right)
     {
@@ -189,6 +206,12 @@ void resetLedState()
 
 void updateLedMode()
 {
+    if (currentModeLed != lastModeLed)
+    {
+        resetLedState();
+        lastModeLed = currentModeLed;
+    }
+
     switch (currentModeLed)
     {
     case LED_ALL_OFF:
@@ -272,11 +295,11 @@ void updateLedMode()
         break;
 
     case LED_RANDOM_SINGLE:
-        randomSingleLeds(150);
+        randomSingleLeds(80);
         break;
 
     case LED_TEST_SEQUENCE:
-        testSequenceLeds(150);
+        testSequenceLeds(80);
         break;
 
     default:
