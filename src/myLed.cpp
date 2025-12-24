@@ -223,10 +223,6 @@ void updateLedMode()
         break;
 
     case LED_BLINK_SLOW:
-        blinkAllLeds(600);
-        break;
-
-    case LED_BLINK_MED:
         blinkAllLeds(300);
         break;
 
@@ -238,20 +234,12 @@ void updateLedMode()
         runningLeds(200);
         break;
 
-    case LED_RUNNING_MED:
-        runningLeds(150);
-        break;
-
     case LED_RUNNING_FAST:
         runningLeds(80);
         break;
 
     case LED_PING_PONG_SLOW:
         pingPongLeds(200);
-        break;
-
-    case LED_PING_PONG_MED:
-        pingPongLeds(150);
         break;
 
     case LED_PING_PONG_FAST:
@@ -262,20 +250,12 @@ void updateLedMode()
         fillUpLeds(150);
         break;
 
-    case LED_FILL_UP_MED:
-        fillUpLeds(130);
-        break;
-
     case LED_FILL_UP_FAST:
         fillUpLeds(80);
         break;
 
     case LED_FILL_DOWN_SLOW:
         fillDownLeds(150);
-        break;
-
-    case LED_FILL_DOWN_MED:
-        fillDownLeds(130);
         break;
 
     case LED_FILL_DOWN_FAST:
