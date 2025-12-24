@@ -235,11 +235,11 @@ void updateLedMode()
         break;
 
     case LED_RUNNING_SLOW:
-        runningLeds(400);
+        runningLeds(200);
         break;
 
     case LED_RUNNING_MED:
-        runningLeds(200);
+        runningLeds(150);
         break;
 
     case LED_RUNNING_FAST:
@@ -247,11 +247,11 @@ void updateLedMode()
         break;
 
     case LED_PING_PONG_SLOW:
-        pingPongLeds(400);
+        pingPongLeds(200);
         break;
 
     case LED_PING_PONG_MED:
-        pingPongLeds(200);
+        pingPongLeds(150);
         break;
 
     case LED_PING_PONG_FAST:
@@ -259,7 +259,7 @@ void updateLedMode()
         break;
 
     case LED_FILL_UP_SLOW:
-        fillUpLeds(200);
+        fillUpLeds(150);
         break;
 
     case LED_FILL_UP_MED:
@@ -271,7 +271,7 @@ void updateLedMode()
         break;
 
     case LED_FILL_DOWN_SLOW:
-        fillDownLeds(200);
+        fillDownLeds(150);
         break;
 
     case LED_FILL_DOWN_MED:
@@ -283,11 +283,11 @@ void updateLedMode()
         break;
 
     case LED_CENTER_OUT:
-        centerOutLeds(200);
+        centerOutLeds(150);
         break;
 
     case LED_EDGE_IN:
-        edgeInLeds(200);
+        edgeInLeds(150);
         break;
 
     case LED_SCANNER_WIDE:
@@ -295,11 +295,11 @@ void updateLedMode()
         break;
 
     case LED_RANDOM_SINGLE:
-        randomSingleLeds(80);
+        randomSingleLeds(100);
         break;
 
     case LED_TEST_SEQUENCE:
-        testSequenceLeds(80);
+        testSequenceLeds(100);
         break;
 
     default:
